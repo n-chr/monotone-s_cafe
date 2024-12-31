@@ -1,0 +1,376 @@
+@charset "UTF-8";
+
+/*lightbox.cssの読み込み
+---------------------------------------------------------------------------*/
+@import url(https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.css);
+
+/*すべての要素にスタイルを適用する*/
+* {
+    margin: 0;
+    padding: 0;
+    vertical-align: bottom;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: auto;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+header {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background: url("img/am_visual.jpg") repeat-y;
+    background-size: cover;
+}
+
+header:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+}
+
+h1 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    color: #ffffff;
+    text-align: center;
+    font-size: 6rem;
+}
+
+.navi {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 50px 1%;
+    list-style: none;
+}
+
+.navi li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.navi li {
+    margin-bottom: 20px;
+}
+
+.navi li a {
+    /*円の基点とするためrelativeを指定*/
+    position: relative;
+}
+
+.navi li.current a,
+.navi li a:hover {
+    color: #ffffff;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.navi li a::after {
+    content: '';
+    /*絶対配置で線の位置を決める*/
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /*線になる丸の形状*/
+    width: 100%;
+    height: 1px;
+    border-radius: 50%;
+    background: #ffffff;
+    /*アニメーションの指定*/
+    transition: all .3s;
+    transform: scale(0.04, 1);
+    /*X方向0.04、Y方向1*/
+    transform-origin: center bottom;
+    /*中央下部基点*/
+}
+
+/*現在地とhoverの設定*/
+.navi li.current a::after,
+.navi li a:hover::after {
+    height: 1px;
+    /*縦幅を変化*/
+    border-radius: 0;
+    /*丸みをなくす*/
+    transform: scale(0.8, 1);
+    /*X方向0.8、Y方向1にスケール拡大*/
+}
+
+/*スクロールダウン全体の場所*/
+.scrolldown {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+}
+
+/*Scrollテキストの描写*/
+.scrolldown span {
+    position: absolute;
+    left: 10px;
+    bottom: 25px;
+    color: #ffffff;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    /*縦書き設定*/
+    -ms-writing-mode: tb-rl;
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* 丸の描写 */
+.scrolldown:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -4px;
+    /*丸の形状*/
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    /*丸の動き1.6秒かけて透過し、永遠にループ*/
+    animation:
+        circlemove 1.6s ease-in-out infinite,
+        cirlemovehide 1.6s ease-out infinite;
+}
+
+/*下からの距離が変化して丸の全体が上から下に動く*/
+@keyframes circlemove {
+    0% {
+        bottom: 75px;
+    }
+
+    100% {
+        bottom: -5px;
+    }
+}
+
+/*上から下にかけて丸が透過→不透明→透過する*/
+@keyframes cirlemovehide {
+    0% {
+        opacity: 0
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 線の描写 */
+.scrolldown:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    height: 80px;
+    background: #ffffff;
+}
+
+footer {
+    text-align: center;
+    padding: 75px 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+footer p {
+    color: #000000;
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    padding: 100px 0;
+    background: linear-gradient(0deg, #ffffff 0%, #7c7c7c 56%, #000000 100%);
+}
+
+main::before {
+    content: "";
+    width: 100%;
+    height: auto;
+}
+
+h2 {
+    margin: 0 auto 15px;
+    font-size: 45px;
+    font-weight: normal;
+    color: #ffffff;
+}
+
+p {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.inner {
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+@keyframes sk-bouncedelay {
+
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+@keyframes sk-stretchdelay {
+
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+#About {
+    margin: 150px auto 250px;
+}
+
+.introduction {
+    /*display: flex;*/
+    margin: 0 5% 5rem;
+}
+
+.introduction img {
+    width: 30%;
+}
+
+.sentence {
+    margin: 0 65px;
+}
+
+.store_information {
+    margin: 10px 0;
+}
+
+.store_information p {
+    font-size: 15px;
+}
+
+/*.introduction {*/
+/*    flex-direction: column;/*flexアイテムを縦並びに変更*/
+/*}*/
+
+.introduction a {
+    text-decoration: none;
+    text-decoration: underline;
+}
+
+.introduction a:hover {
+    color: #777777;
+}
+
+.gmap_iframe {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: 200px;
+}
+
+#gallery {
+    display: grid;
+    max-width: 100%;
+    margin: 0 5% 5rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.img-item {
+    /*opacity: 0;*/
+    /*filter: blur(10px);*/
+    width: 100%;
+}
+
+.img-item img {
+    width: 100%;
+    height: auto;
+}
+
+.img-item p {
+    text-align: center;
+}
+
+iframe {
+    filter: grayscale(100%);
+}
+
+a {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+@media screen and (max-width: 480px) {
+    .navi li a {
+        padding: 15px 10px;
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 25px;
+    }
+
+    p {
+        font-size: 12px;
+        margin: 0 auto;
+    }
+
+    #gallery {
+        gap: 0;
+    }
+
+    .store_information p {
+        font-size: 8px;
+    }
+
+    footer {
+        padding: 0;
+    }
+}
